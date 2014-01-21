@@ -5,8 +5,10 @@ require 'open-uri'
 require './streaming'
 
 class StreamURLMaker < Wx::Frame
-  def initialize(title)
+  def initialize(title, thread)
     super(nil, -1, title, nil, Wx::Size.new(340,600), Wx::DEFAULT_FRAME_STYLE ^ Wx::RESIZE_BORDER)
+    
+    @mycroft = thread
     
     @sizer = Wx::GridBagSizer.new()
     
@@ -77,10 +79,9 @@ end
 
 
 class MycroftStreamUI < Wx::App
-    def on_init()
-        Mycroft.start(Streaming)
-        @frame = StreamURLMaker.new("Video Stream Launcher")
-    end
+  Mycroft.start(Streaming) # This is blocking. Why is this blocking.
+
+  @frame = StreamURLMaker.new("Video Stream Launcher", thr)
 end
 
 app = MycroftStreamUI.new

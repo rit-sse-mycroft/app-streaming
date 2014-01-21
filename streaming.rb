@@ -5,8 +5,8 @@ class Streaming < Mycroft::Client
   attr_accessor :verified
 
   def initialize
-    @key = '/path/to/key'
-    @cert = '/path/to/cert'
+    @key = './streaming.key'
+    @cert = './streaming.crt'
     @manifest = './app.json'
     @verified = false
   end
