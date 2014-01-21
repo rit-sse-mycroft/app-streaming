@@ -1,4 +1,5 @@
 require 'mycroft'
+require './ui'
 
 class Streaming < Mycroft::Client
 
@@ -12,10 +13,14 @@ class Streaming < Mycroft::Client
   end
 
   def connect
-    # Your code here
+    spawnUI(self);
+  end
+  
+  def sendURL(url)
+    
   end
 
-  def on_data(data)
+  def on_data(parsed)
     # Your code here
   end
 
