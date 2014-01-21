@@ -4,17 +4,14 @@ class Streaming < Mycroft::Client
 
   attr_accessor :verified
 
-  def initialize
+  def initialize(ui)
     @key = './streaming.key'
     @cert = './streaming.crt'
     @manifest = './app.json'
     @verified = false
     @players = {}
-    super('localhost', nil)
-  end
-  
-  def reg_ui(ui)
     @ui = ui
+    super('localhost', nil)
   end
 
   def connect

@@ -27,7 +27,7 @@ class StreamURLMaker < Wx::Frame
         path = Pathname.new(dialog.get_directory+"\\\\"+dialog.get_filename).expand_path.to_s
         escaped = URI.escape(path, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
         url = "file:///"+escaped
-        res = @ressizer.get_value
+        res = @resolution.get_value
         frac = "%0.2f" % (res.to_i/100)
         
         launch = "vlc #{url} :sout=#transcode{vcodec=h264,scale=#{frac},acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:8080/mycroft.sdp} :sout-keep"
@@ -39,7 +39,7 @@ class StreamURLMaker < Wx::Frame
     @screenbutton = Wx::Button.new(@bg, -1, "Screen")
     evt_button(@screenbutton) do #Make vlc launch line, send info to mycroft
       url = "screen://"
-      res = @ressizer.get_value
+      res = @resolution.get_value
       frac = "%0.2f" % (res.to_i/100)
     
     launch = "vlc #{url} :screen-fps=30 :screen-caching=100 :sout=#transcode{vcodec=h264,scale=#{frac},acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:8080/mycroft.sdp} :sout-keep"
@@ -93,7 +93,11 @@ class StreamURLMaker < Wx::Frame
       end
     end
     
-    #Streaming.sendUrl(url, dest)
+    if (@client)
+      @client.sendUrl(url, dest)
+    else
+      puts "Tried to send a URL before client was connected"
+    end
   end
   
   def update_players(players)
@@ -119,10 +123,21 @@ end
 
 
 class MycroftStreamUI < Wx::App
-  #Mycroft.start(Streaming) # This is blocking. Why is this blocking.
+
   def on_init
     @frame = StreamURLMaker.new("Video Stream Launcher")
-    # Streaming.reg_ui(self)
+    #Thread.abort_on_exception = true #Aborts program, unfortunately
+    begin
+      Thread.new do
+        cli = Streaming.new(self)
+        @frame.client = cli
+      end
+    
+    rescue Exception => e
+      puts "Failed to connect - maintaining UI"
+      puts "Error message:"
+      puts e
+    end
   end
   
   def players_changed(players)
