@@ -22,8 +22,8 @@ class Streaming < Mycroft::Client
     up
   end
   
-  def sendUrl(url)
-    query("video", "stream", url)
+  def sendUrl(url, dest = nil)
+    query("video", "stream", url, nil, dest)
   end
 
   def on_data(parsed)
