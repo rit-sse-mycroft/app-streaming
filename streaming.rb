@@ -9,22 +9,25 @@ class Streaming < Mycroft::Client
     @cert = './streaming.crt'
     @manifest = './app.json'
     @verified = false
+    super
   end
 
   def connect
-  
+    up
   end
   
   def sendUrl(url)
-    
+    query("video", "stream", url)
   end
 
   def on_data(parsed)
-    # Your code here
+    if parsed[:type] == 'MSG_QUERY_SUCCESS'
+        puts "Stream started!"
+    end
   end
 
   def on_end
-    # Your code here
+    down
   end
 end
 
