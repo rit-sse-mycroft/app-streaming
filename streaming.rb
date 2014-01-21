@@ -9,9 +9,8 @@ class Streaming < Mycroft::Client
     @cert = './streaming.crt'
     @manifest = './app.json'
     @verified = false
-    @host = 'localhost'
     @players = {}
-    super
+    super('localhost', nil)
   end
   
   def reg_ui(ui)
