@@ -1,5 +1,4 @@
 require 'mycroft'
-require './ui'
 
 class Streaming < Mycroft::Client
 
@@ -13,10 +12,10 @@ class Streaming < Mycroft::Client
   end
 
   def connect
-    spawnUI(self);
+  
   end
   
-  def sendURL(url)
+  def sendUrl(url)
     
   end
 
@@ -29,4 +28,3 @@ class Streaming < Mycroft::Client
   end
 end
 
-Mycroft.start(Streaming)
