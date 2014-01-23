@@ -64,6 +64,9 @@ class StreamURLMaker < Wx::Frame
     @sizer.add(@ressizer, Wx::GBPosition.new(1,0), Wx::GBSpan.new(1, 3))
     @checksizer = Wx::StaticBoxSizer.new(Wx::VERTICAL, @bg, "Target Players")
     
+    @dests = []
+    @checkcombo = Wx::TextCtrl.new(@bg, -1)
+    @checksizer.add(@checkcombo, 0, Wx::EXPAND)
     
     @sizer.add(@checksizer, Wx::GBPosition.new(2,0), Wx::GBSpan.new(1, 3), Wx::EXPAND)
     
@@ -86,12 +89,9 @@ class StreamURLMaker < Wx::Frame
   end
 
   def sendUrl(url)
-    dest = []
-    @checksizer.get_children.each do |obj|
-      if (obj.is_a? Wx::CheckBox) and obj.is_checked
-        dest.add(obj.get_label_text)
-      end
-    end
+    puts "Sending url to:"
+    dest = [@checkcombo.get_value]
+    puts dest
     
     if (@client)
       @client.sendUrl(url, dest)
@@ -101,22 +101,24 @@ class StreamURLMaker < Wx::Frame
   end
   
   def update_players(players)
-    @checksizer.get_children.each do |obj|
-      if obj.is_a? Wx::CheckBox
-        obj.remove
-      end
-    end
     
+    res = []
     players.each do |key, value|
+      puts "k: #{key} v: #{value}"
       if (value!='down')
-        box = Wx::CheckBox.new(@bg, -1, key.to_s)
-        box.set_value true
-        @checksizer.add(box, 1, Wx::EXPAND | Wx::CENTER)
+        res << key
       end
     end
     
-    @sizer.fit self
-    @sizer.fit @bg
+    @dests = res
+    puts "Combo settin"
+    #Setting something in the ui freezes it. I do not know why.
+    #@checkcombo.set_value(@dests.to_s)
+    
+  end
+  
+  def client(arg)
+    @client = arg
   end
   
 end
@@ -127,20 +129,18 @@ class MycroftStreamUI < Wx::App
   def on_init
     @frame = StreamURLMaker.new("Video Stream Launcher")
     #Thread.abort_on_exception = true #Aborts program, unfortunately
-    begin
-      Thread.new do
-        cli = Streaming.new(self)
-        @frame.client = cli
-      end
-    
-    rescue Exception => e
-      puts "Failed to connect - maintaining UI"
-      puts "Error message:"
-      puts e
-    end
+    #begin
+      cli = Streaming.new(self)
+      @frame.client cli
+    #rescue Exception => e
+    #  puts "Failed to connect - maintaining UI"
+    #  puts "Error message:"
+    #  puts e
+    #end
   end
   
   def players_changed(players)
+    puts "Updating frame"
     @frame.update_players(players)
   end
 end

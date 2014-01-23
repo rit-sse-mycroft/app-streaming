@@ -11,25 +11,30 @@ class Streaming < Mycroft::Client
     @verified = false
     @players = {}
     @ui = ui
-    super('localhost', nil)
+    @threaded = true
+    super('localhost', 1847)
   end
 
   def connect
-    up
+
   end
   
   def sendUrl(url, dest = nil)
-    query("video", "vido_stream", url, nil, dest)
+    query("video", "video_stream", {url: url}, 30, dest)
   end
 
   def on_data(parsed)
-    if parsed[:type] == 'MSG_QUERY_SUCCESS'
+    if parsed[:type] == 'APP_MANIFEST_OK'
+      up
+    elsif parsed[:type] == 'MSG_QUERY_SUCCESS'
       puts "Stream started!"
-    end
-    if parsed[:type] == 'APP_DEPENDENCY'
+    elsif parsed[:type] == 'APP_DEPENDENCY'
       puts "Updating player list"
       @players = parsed[:data]['video']
-      @players += parsed[:data]['speakers']
+      puts @players
+      parsed[:data]['speakers'].each do |key, val|
+        @players[key] = val
+      end
       @ui.players_changed(@players)
     end
   end
