@@ -19,7 +19,7 @@ class Streaming < Mycroft::Client
   end
   
   def sendUrl(url, dest = nil)
-    query("video", "stream", url, nil, dest)
+    query("video", "vido_stream", url, nil, dest)
   end
 
   def on_data(parsed)
@@ -29,6 +29,7 @@ class Streaming < Mycroft::Client
     if parsed[:type] == 'APP_DEPENDENCY'
       puts "Updating player list"
       @players = parsed[:data]['video']
+      @players += parsed[:data]['speakers']
       @ui.players_changed(@players)
     end
   end
