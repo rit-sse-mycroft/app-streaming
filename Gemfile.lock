@@ -1,0 +1,18 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    active_support (3.0.0)
+      activesupport (= 3.0.0)
+    activesupport (3.0.0)
+    mycroft (0.0.1)
+      active_support
+      thor
+    thor (0.18.1)
+    wxruby-ruby19 (2.0.1-x86-mingw32)
+
+PLATFORMS
+  x86-mingw32
+
+DEPENDENCIES
+  mycroft
+  wxruby-ruby19

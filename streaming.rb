@@ -22,6 +22,10 @@ class Streaming < Mycroft::Client
   def sendUrl(url, dest = nil)
     query("video", "video_stream", {url: url}, 30, dest)
   end
+  
+  def sendHalt(dests = [])
+    query("video", "halt", {}, 30, dests)
+  end
 
   def on_data(parsed)
     if parsed[:type] == 'APP_MANIFEST_OK'

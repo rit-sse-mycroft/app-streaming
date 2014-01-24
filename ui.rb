@@ -42,7 +42,8 @@ class StreamURLMaker < Wx::Frame
       res = @resolution.get_value
       frac = "%0.2f" % (res.to_i/100)
     
-    launch = "vlc #{url} :screen-fps=30 :screen-caching=100 :sout=#transcode{vcodec=h264,scale=#{frac},acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:8080/mycroft.sdp} :sout-keep"
+      launch = "vlc #{url} :screen-fps=30 :sout=#transcode{vcodec=h264,scale=#{frac},acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:8080/mycroft.sdp} :sout-keep"
+      puts launch
       pid = spawn(launch)
       sendIp
     end
@@ -69,6 +70,12 @@ class StreamURLMaker < Wx::Frame
     @checksizer.add(@checkcombo, 0, Wx::EXPAND)
     
     @sizer.add(@checksizer, Wx::GBPosition.new(2,0), Wx::GBSpan.new(1, 3), Wx::EXPAND)
+    
+    @halt =  Wx::Button.new(@bg, -1, "Halt Video")
+    evt_button(@halt) do #Make vlc launch line, send info to mycroft
+        @client.sendHalt([@checkcombo.get_value])
+    end
+    @sizer.add(@halt, Wx::GBPosition.new(3,0), Wx::GBSpan.new(1,3), Wx::EXPAND)
     
     @bg.set_sizer_and_fit @sizer
     
