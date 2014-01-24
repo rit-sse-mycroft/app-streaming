@@ -1,6 +1,6 @@
 {
     "version": "0.0.1",
-    "name": "€streaming",
+    "name": "streaming",
     "displayName": "Streaming Client",
     "instanceId": "client_streamer",
     "capabilities": {
