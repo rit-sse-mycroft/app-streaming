@@ -69,4 +69,11 @@ angular.module('partials', [])
 '    </div>',
 '  </div>',
 '</div>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/player.html', [
+'',
+'<div class="panel panel-default">',
+'  <embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" src="screen://" height="inherit" width="inherit" id="vlcplayer"></embed>',
+'</div>',''].join("\n"));
 }]);

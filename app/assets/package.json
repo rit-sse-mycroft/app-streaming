@@ -28,5 +28,8 @@
     "resizable": true,
     "always-on-top": false,
     "fullscreen": false
+  },
+  "webkit": {
+    "plugin": true
   }
 }

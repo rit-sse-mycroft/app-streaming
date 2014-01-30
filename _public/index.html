@@ -100,10 +100,17 @@
           </ul>
         </div>
       </div>
-      <div style="padding: 8px;" class="col-md-9">
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-        <div class="content">
-          <div ng-view></div>
+      <div class="col-md-9">
+        <div style="margin: 28px;" class="row">
+          <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+          <div class="content">
+            <div ng-view></div>
+          </div>
+        </div>
+        <div style="margin: 28px;" class="row">
+          <div class="panel panel-default">
+            <embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" src="screen://" height="inherit" width="inherit" id="vlcplayer"></embed>
+          </div>
         </div>
       </div>
     </div>

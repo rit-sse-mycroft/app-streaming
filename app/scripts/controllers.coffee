@@ -417,11 +417,16 @@ angular.module('app.controllers', [])
       ctrlr = angular.element($('#'+$scope.activeNavId.substring(1))).scope()
       console.log(ctrlr)
       $scope.getIp( (ip) ->
-        ctrlr.streamData(ip, (data) ->
+        to_play = ctrlr.streamData(ip, (data) ->
           for type in $scope.filterTypes()
             console.log('Sending a thingy query!')
             $scope.conn.query(type, 'video_stream', data, targets)
         )
+        old = $('#vlcplayer')
+        new_player = old.clone()
+        new_player.attr('src', to_play)
+        new_player.insertBefore(old)
+        old.remove()
       )
     else
       $scope.addAlert("Connection not established, can't start a video.", "warning")
@@ -436,6 +441,7 @@ angular.module('app.controllers', [])
         $scope.conn.query(type, 'halt', {}, targets)
     else
       $scope.addAlert("Connection not established, can't halt a video.", "warning")
+    $('#vlcplayer').playlist.stop():
         
   $scope.addAlert = (msg, type) ->
       if not $scope.alerts
@@ -477,7 +483,7 @@ angular.module('app.controllers', [])
     )
     data = url: 'rtsp://'+ip+':'+port+'/mycroft.sdp'
     block(data)
-    
+    data
 ])
 
 .controller('youtube', [
@@ -486,6 +492,7 @@ angular.module('app.controllers', [])
 ($scope) ->
   $scope.streamData = (ip, block)->
     block(url: $scope.url)
+    $scope.url
 ])
 
 .controller('file', [
@@ -516,6 +523,7 @@ angular.module('app.controllers', [])
     )
     data = url: 'rtsp://'+ip+':'+port+'/mycroft.sdp'
     block(data)
+    data
         
   holder = document.getElementById('fileDialog')
   holder.ondragover = ->
