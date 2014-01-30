@@ -69,9 +69,9 @@ html(lang='en', ng-app='app')
                   .btn.btn-danger(style='width:100%; text-align: center; margin: 0; border-radius: 0;', ng-click='haltStream()', ng-class='{disabled: !conn}')
                     i.glyphicon.glyphicon-stop
       .col-md-9
-        .row(style='margin: 28px;')
+        .row(style='margin: 14px;')
           alert(ng-repeat="alert in alerts", type="alert.type", close="closeAlert($index)") {{alert.msg}}
           .content
             div(ng-view)
-        .row(style='margin: 28px;')
+        .row(style='margin: 14px;')
           include partials/player
