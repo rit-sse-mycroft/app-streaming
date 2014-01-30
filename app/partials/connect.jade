@@ -1,0 +1,14 @@
+div(style='width: 100%;')
+  accordion
+    accordion-group
+      accordion-heading Connection Details
+        i.pull-right.glyphicon.glyphicon-chevron-down
+      .well
+        span Host
+        input(type='text', id='host', ng-model='mycroft_host')
+        span Port
+        input(type='number', id='port', ng-model='mycroft_port')
+        label(class='checkbox inline')
+        input(type='checkbox', id='tls_status', ng-model='mycroft_tls')
+        span Use TLS
+        .btn.btn-primary.pull-right(ng-class='{disabled: connecting}', ng-click='beginMycroftConnection()') Connect

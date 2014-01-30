@@ -1,0 +1,6 @@
+div(ng-app='ng-app')
+  div(ng-controller='youtube', id='youtube')
+    h1 Web Video Streaming
+    .panel.panel-default(style='padding: 8px;')
+      p Enter the full URL of a youtube or vimeo video to stream
+      input(type='url', id='youtube_url', ng-model='url')

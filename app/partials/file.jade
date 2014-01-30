@@ -1,0 +1,10 @@
+div(ng-app='ng-app')
+  div(ng-controller='file', id='file')
+    h1 Local File Streaming
+    .panel.panel-default(style='padding: 8px;')
+      p Select a file (or files) to start streaming from your machine.
+      input(style='text-align: center', id='fileDialog', type='file', multiple)
+      p Stream resolution scale 
+        input(type="number", id='screen_scale', step="0.1", min="0.1", max="100", default='100', ng-model='scale') 
+        small %
+      small (Note: vlc must be on your system path.)

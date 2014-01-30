@@ -1,0 +1,5 @@
+ul.unstyled
+  li(ng-repeat='target in targets')
+    input(type='checkbox', ng-model='target.selected')
+    span(class='{{target.type}}')  {{target.name}}
+    

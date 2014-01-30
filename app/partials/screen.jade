@@ -1,0 +1,9 @@
+div(ng-app='ng-app')
+  div(ng-controller='screen', id='screen')
+    h1 Local Display Streaming
+    .panel.panel-default(style='padding: 8px;')
+      p Stream your screen and audio to Mycroft
+      p Stream resolution scale 
+        input(type="number", id='screen_scale', step="0.1", min="0.1", max="100", default='100', ng-model='scale')
+        small %
+      small (Note: vlc must be on your system path.)
