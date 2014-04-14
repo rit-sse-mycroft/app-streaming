@@ -1,7 +1,7 @@
 exports.config =
   # See docs at http://brunch.readthedocs.org/en/latest/config.html.
   conventions:
-    assets:  /^app\/assets\//
+    assets:  /assets[\\/]/
     ignored: /^(bower_components\/bootstrap-less(-themes)?|app\/styles\/overrides|(.*?\/)?[_]\w*)/
   modules:
     definition: false
@@ -9,10 +9,10 @@ exports.config =
   paths:
     public: '_public'
   files:
-    javascripts:
+    javascripts: # This breaks node modules bad.
       joinTo:
         'js/app.js': /^app/
-        'js/vendor.js': /^(bower_components|vendor)/
+        'js/vendor.js': /^(bower_components|vendor)/ 
 
     stylesheets:
       joinTo:
@@ -34,4 +34,4 @@ exports.config =
       locals: {}
 
   # Enable or disable minifying of result js / css files.
-  minify: true
+  minify: false

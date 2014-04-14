@@ -1,6 +1,6 @@
 {
   "author": "RIT SSE",
-  "name": "Mycroft Source",
+  "name": "MycroftSource",
   "description": "Package Description",
   "version": "0.0.1",
   "homepage": "",
@@ -31,5 +31,8 @@
   },
   "webkit": {
     "plugin": true
+  },
+  "dependencies": {
+    "mycroft": "~0.1.2"
   }
 }
