@@ -8,10 +8,10 @@ angular.module('app.controllers', [])
   '$location'
   '$resource'
   '$rootScope'
-  
-vlcPath = (process.platform=='darwin' ? '/Applications/VLC.app/Contents/MacOS/VLC' : 'cvlc')
 
 ($scope, $location, $resource, $rootScope) ->
+  
+  $scope.vlcPath = (if (process.platform=='darwin') then '/Applications/VLC.app/Contents/MacOS/VLC' else 'cvlc')
 
   $scope.mycroft_host = 'localhost'
   $scope.mycroft_port = 1847
@@ -185,7 +185,7 @@ vlcPath = (process.platform=='darwin' ? '/Applications/VLC.app/Contents/MacOS/VL
   $scope.streamData = (ip, block) ->
     scale = (($scope.scale/100).toFixed(2))
     port = Math.floor(Math.random() * (30000 - 3000 + 1) + 3000);
-    cmd = _.template(vlcPath+" screen:// :sout=#transcode{vcodec=h264,scale=<%= scale %>,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp} :sout-keep")
+    cmd = _.template($scope.vlcPath+" screen:// :sout=#transcode{vcodec=h264,scale=<%= scale %>,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp} :sout-keep")
     compiled = cmd(
       scale: scale
     )
@@ -223,10 +223,9 @@ vlcPath = (process.platform=='darwin' ? '/Applications/VLC.app/Contents/MacOS/VL
     filepaths = "file:///"+files
     scale = +(($scope.scale/100).toFixed(2))
     port = Math.floor(Math.random() * (30000 - 3000 + 1) + 3000);
-    cmd = _.template("<%= vlc %> <%= url %> :sout=#transcode{vcodec=h264,scale=<%= scale %>,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp} :sout-keep")
+    cmd = _.template($scope.vlcPath+" <%= url %> :sout=#transcode{vcodec=h264,scale=<%= scale %>,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp} :sout-keep")
     compiled = cmd(
       scale: scale
-      vlc: vlcPath
       url: filepaths
     )
     console.log(compiled)
