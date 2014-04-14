@@ -1,4 +1,5 @@
 Mycroft = require('mycroft')
+
 ### Controllers ###
 
 angular.module('app.controllers', [])
@@ -19,7 +20,7 @@ angular.module('app.controllers', [])
 
   $scope.beginMycroftConnection = ->
     $scope.connecting = true
-    $scope.conn = new Mycroft('app.json', $scope.mycroft_host, $scope.mycroft_port);
+    $scope.conn = new Mycroft('Mycroft Source', 'app.json', $scope.mycroft_host, $scope.mycroft_port);
     
     $scope.conn.on('CONNECTION_CLOSED', (data) -> 
       # ... Well.
@@ -108,19 +109,11 @@ angular.module('app.controllers', [])
     types
     
   $scope.getIp = (func) ->
-    req = http.get('http://whatismyip.akamai.com', (res) ->
-      body = []
-      res.on('data', (data) ->
-        body.push(data)
-      )
-      res.on('end', () ->
-        func(Buffer.concat(body))
-      )
-    )
-    req.on('error', (err) ->
-      console.log("Error retrieving ip address!")
-      console.log(err.message)
-    )
+    req = new XMLHttpRequest()
+    req.onload = () ->
+      func(this.responseText)
+    req.open('get', 'http://whatismyip.akamai.com', false)
+    req.send();
   
   $scope.startStream = ->
     targets = []
