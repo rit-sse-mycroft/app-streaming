@@ -4,7 +4,7 @@
     "displayName": "Mycroft Source",
     "instanceId": "client_streamer",
     "capabilities": {
-      "stream_source": "0.0.1"
+      "stream_source": "0.0.2"
     },
     "API": 0,
     "description": "A clientside app that launches and sends streams",

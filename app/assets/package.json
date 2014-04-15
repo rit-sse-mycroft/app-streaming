@@ -33,6 +33,6 @@
     "plugin": true
   },
   "dependencies": {
-    "mycroft": "~0.1.2"
+    "mycroft": "~0.1.4"
   }
 }

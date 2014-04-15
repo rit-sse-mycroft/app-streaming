@@ -1,5 +1,6 @@
 Mycroft = require('mycroft')
 exec = require('child_process').exec
+os = require('os')
 
 ### Controllers ###
 
@@ -22,7 +23,7 @@ angular.module('app.controllers', [])
   $scope.beginMycroftConnection = ->
     $scope.mycroft_host = document.getElementById('host').value #Temp hack
     $scope.connecting = true
-    $scope.conn = new Mycroft('Mycroft Source', 'app.json', $scope.mycroft_host, $scope.mycroft_port);
+    $scope.conn = new Mycroft(os.hostname()+'_Source', 'app.json', $scope.mycroft_host, $scope.mycroft_port);
     
     $scope.conn.on('CONNECTION_CLOSED', (data) -> 
       # ... Well.
