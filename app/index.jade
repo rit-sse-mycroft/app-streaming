@@ -50,6 +50,13 @@ html(lang='en', ng-app='app')
                     h4.panel-title
                       a(ng-href='#/youtube', ng-class="getClass('/youtube')") Web Video
                         i.pull-right.glyphicon.glyphicon-chevron-right
+            li 
+              .panel-group
+                .panel.panel-default(style='overflow: visible')
+                  .panel-heading  
+                    h4.panel-title
+                      a(ng-href='#/webcam', ng-class="getClass('/webcam')") Webcam
+                        i.pull-right.glyphicon.glyphicon-chevron-right
             li
               include partials/connect
             li

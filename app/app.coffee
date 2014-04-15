@@ -23,6 +23,7 @@ App.config([
     .when('/youtube', {templateUrl: '/partials/youtube.html'})
     .when('/file', {templateUrl: '/partials/file.html'})
     .when('/screen', {templateUrl: '/partials/screen.html'})
+    .when('/webcam', {templateUrl: '/partials/webcam.html'})
 
     # Catch all
     .otherwise({redirectTo: '/file'})
