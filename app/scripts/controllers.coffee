@@ -1,4 +1,5 @@
 Mycroft = require('mycroft')
+exec = require('child_process').exec
 
 ### Controllers ###
 
@@ -12,7 +13,7 @@ angular.module('app.controllers', [])
 
 ($scope, $location, $resource, $rootScope) ->
   
-  $scope.vlcPath = (if (process.platform=='darwin') then '/Applications/VLC.app/Contents/MacOS/VLC' else 'cvlc')
+  $scope.vlcPath = (if (process.platform=='darwin') then '/Applications/VLC.app/Contents/MacOS/VLC' else 'vlc')
 
   $scope.mycroft_host = 'localhost'
   $scope.mycroft_port = 1847
@@ -144,7 +145,7 @@ angular.module('app.controllers', [])
       if item.selected 
         targets.push(item.name)
     if $scope.conn
-      for type in $scope.filterTypes
+      for type in $scope.filterTypes()
         $scope.conn.query(type, 'halt', {}, targets)
     else
       $scope.addAlert("Connection not established, can't halt a video.", "warning")
