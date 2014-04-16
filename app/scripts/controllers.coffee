@@ -181,7 +181,7 @@ angular.module('app.controllers', [])
   $scope.streamData = (ip, block) ->
     scale = (($scope.scale/100).toFixed(2))
     port = Math.floor(Math.random() * (30000 - 3000 + 1) + 3000);
-    cmd = _.template($scope.vlcPath+" screen:// --screen-fps=30.000000 --sout=\"#transcode{vcodec=h264,fps=30,scale=<%= scale %>,acodec=mp3,ab=128,channels=2,samplerate=8000}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\" --sout-keep")
+    cmd = _.template($scope.vlcPath+" screen:// --screen-fps=30.000000 --sout=\"#duplicate{dst=\'transcode{vcodec=h264,fps=30,scale=<%= scale %>,acodec=mp3,ab=128,channels=2,samplerate=8000}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\', dst=display}\"")
     compiled = cmd(
       scale: scale
     )
@@ -204,7 +204,7 @@ angular.module('app.controllers', [])
   $scope.streamData = (ip, block) ->
     scale = (($scope.scale/100).toFixed(2))
     port = Math.floor(Math.random() * (30000 - 3000 + 1) + 3000);
-    cmd = _.template($scope.vlcPath+" dshow:// --screen-fps=30.000000 --sout=\"#transcode{vcodec=h264,fps=30,scale=<%= scale %>,acodec=mp3,ab=128,channels=2,samplerate=8000}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\" --sout-keep")
+    cmd = _.template($scope.vlcPath+" dshow:// --sout=\"#dusplicate{dst=\'transcode{vcodec=h264,scale=<%= scale %>,acodec=mp3,ab=128,channels=2}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\', dst=display}\"")
     compiled = cmd(
       scale: scale
     )
@@ -242,7 +242,7 @@ angular.module('app.controllers', [])
     filepaths = "file:///"+files
     scale = +(($scope.scale/100).toFixed(2))
     port = Math.floor(Math.random() * (30000 - 3000 + 1) + 3000);
-    cmd = _.template($scope.vlcPath+" <%= url %> --sout=\"#transcode{vcodec=h264,scale=<%= scale %>,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=t140,soverlay}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\" --sout-keep")
+    cmd = _.template($scope.vlcPath+" <%= url %> --sout=\"#duplicate{dst=\'transcode{vcodec=h264,scale=<%= scale %>,acodec=mpga,ab=128,channels=2,samplerate=44100,acodec=mp3,scodec=t140,soverlay,audio-sync=1}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\', dst=display}\"")
     compiled = cmd(
       scale: scale
       url: filepaths
