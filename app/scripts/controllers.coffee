@@ -15,7 +15,7 @@ angular.module('app.controllers', [])
 ($scope, $location, $resource, $rootScope) ->
   
   $scope.vlcPath = (if (process.platform=='darwin') then '/Applications/VLC.app/Contents/MacOS/VLC' else 'vlc')
-  $scope.webcame = (if (process.platform.indexOf('win')>=0) then 'dshow://' else 'qtcapture://')
+  $scope.webcam = (if (process.platform.indexOf('win')>=0) then 'dshow://' else 'qtcapture://')
 
   $scope.mycroft_host = 'localhost'
   $scope.mycroft_port = 1847
