@@ -15,6 +15,7 @@ angular.module('app.controllers', [])
 ($scope, $location, $resource, $rootScope) ->
   
   $scope.vlcPath = (if (process.platform=='darwin') then '/Applications/VLC.app/Contents/MacOS/VLC' else 'vlc')
+  $scope.webcame = (if (process.platform.indexOf('win')>=0) then 'dshow://' else 'qtcapture://')
 
   $scope.mycroft_host = 'localhost'
   $scope.mycroft_port = 1847
@@ -204,7 +205,7 @@ angular.module('app.controllers', [])
   $scope.streamData = (ip, block) ->
     scale = (($scope.scale/100).toFixed(2))
     port = Math.floor(Math.random() * (30000 - 3000 + 1) + 3000);
-    cmd = _.template($scope.vlcPath+" dshow:// --sout=\"#dusplicate{dst=\'transcode{vcodec=h264,scale=<%= scale %>,acodec=mp3,ab=128,channels=2}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\', dst=display}\"")
+    cmd = _.template($scope.vlcPath+" "+$scope.webcam+" --sout=\"#dusplicate{dst=\'transcode{vcodec=h264,scale=<%= scale %>,acodec=mp3,ab=128,channels=2,fps=3-}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\', dst=display}\"")
     compiled = cmd(
       scale: scale
     )
@@ -242,7 +243,7 @@ angular.module('app.controllers', [])
     filepaths = "file:///"+files
     scale = +(($scope.scale/100).toFixed(2))
     port = Math.floor(Math.random() * (30000 - 3000 + 1) + 3000);
-    cmd = _.template($scope.vlcPath+" <%= url %> --sout=\"#duplicate{dst=\'transcode{vcodec=h264,scale=<%= scale %>,acodec=mpga,ab=128,channels=2,samplerate=44100,acodec=mp3,scodec=t140,soverlay,audio-sync=1}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\', dst=display}\"")
+    cmd = _.template($scope.vlcPath+" -vvv <%= url %> --sout=\"#duplicate{dst=\'transcode{venc=x264,vcodec=h264,threads=8,bframes=0,scale=<%= scale %>,acodec=mpga,ab=128,channels=2,samplerate=44100,acodec=mp3,scodec=t140,soverlay,audio-sync=1}:rtp{sdp=rtsp://:"+port+"/mycroft.sdp}\', dst=display}\"")
     compiled = cmd(
       scale: scale
       url: filepaths
